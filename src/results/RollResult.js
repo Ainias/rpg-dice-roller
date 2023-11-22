@@ -250,7 +250,7 @@ class RollResult {
    */
   toJSON() {
     const {
-      calculationValue, initialValue, modifierFlags, modifiers, useInTotal, value,
+      calculationValue, initialValue, modifierFlags, modifiers, useInTotal, value, dice,
     } = this;
 
     return {
@@ -261,6 +261,8 @@ class RollResult {
       type: 'result',
       useInTotal,
       value,
+      dice,
+      test: true,
     };
   }
 
