@@ -107,12 +107,12 @@ class ExplodeModifier extends ComparisonModifier {
 
     parsedResults.rolls = results.rolls
       .map((roll) => {
-        const subRolls = [roll];
+        let subRolls = [];
         let compareValue = roll.value;
 
         // explode if the value matches the compare point, and we haven't reached the max iterations
         for (let i = 0; (i < this.maxIterations) && this.isComparePoint(compareValue); i++) {
-          const prevRoll = subRolls[subRolls.length - 1];
+          const prevRoll = subRolls[subRolls.length - 1] ?? roll;
           // roll the dice
           const rollResult = _context.rollOnce();
 
@@ -131,6 +131,10 @@ class ExplodeModifier extends ComparisonModifier {
           // add the rolls to the list
           subRolls.push(rollResult);
         }
+
+        // eslint-disable-next-line no-param-reassign
+        roll.subRolls = subRolls;
+        subRolls = [roll, ...subRolls];
 
         // return the rolls (Compounded if necessary)
         /* eslint-disable  no-param-reassign */

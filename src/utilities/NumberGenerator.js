@@ -196,6 +196,15 @@ class NumberGenerator {
 
     return this[randomSymbol].real(min, max, inclusive);
   }
+
+  /**
+   * Generates a random unique identifier (UUID v4).
+   *
+   * @returns {string}
+   */
+  uuid4() {
+    return this[randomSymbol].uuid4();
+  }
 }
 
 const generator = new NumberGenerator();
