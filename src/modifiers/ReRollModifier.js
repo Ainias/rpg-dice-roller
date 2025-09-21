@@ -110,6 +110,9 @@ class ReRollModifier extends ComparisonModifier {
           // eslint-disable-next-line no-param-reassign
           roll.value = rollResult.value;
 
+          // eslint-disable-next-line no-param-reassign
+          roll.subRolls = [...roll.subRolls, rollResult];
+
           // add the re-roll modifier flag
           roll.modifiers.add(`re-roll${this.once ? '-once' : ''}`);
 

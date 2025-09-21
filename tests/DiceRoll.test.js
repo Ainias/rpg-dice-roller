@@ -7,6 +7,13 @@ import RollResult from '../src/results/RollResult.js';
 import RollResults from '../src/results/RollResults.js';
 import exportFormats from '../src/utilities/ExportFormats.js';
 
+jest.mock('../src/utilities/NumberGenerator.js', () => {
+  const originalModule = jest.requireActual('../src/utilities/NumberGenerator.js');
+  Object.getPrototypeOf(originalModule.generator).uuid4 = () => '00000000-0000-4000-8000-000000000000';
+
+  return originalModule;
+});
+
 describe('DiceRoll', () => {
   describe('Initialisation', () => {
     test('model structure', () => {

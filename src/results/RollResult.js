@@ -1,5 +1,6 @@
 import { isNumeric } from '../utilities/math.js';
 import getModifierFlags from '../modifiers/modifier-flags.js';
+import { generator } from '../utilities/NumberGenerator.js';
 
 const calculationValueSymbol = Symbol('calculation-value');
 const modifiersSymbol = Symbol('modifiers');
@@ -7,6 +8,8 @@ const initialValueSymbol = Symbol('initial-value');
 const useInTotalSymbol = Symbol('use-in-total');
 const diceSymbol = Symbol('dice');
 const valueSymbol = Symbol('value');
+const idSymbol = Symbol('id');
+const subRolls = Symbol('subRolls');
 
 /**
  * A `RollResult` represents the value and applicable modifiers for a single die roll
@@ -50,6 +53,9 @@ class RollResult {
    * @throws {TypeError} Result value, calculation value, or modifiers are invalid
    */
   constructor(value, modifiers = [], useInTotal = true) {
+    this[idSymbol] = generator.uuid4();
+    this[subRolls] = [];
+
     if (isNumeric(value)) {
       this[initialValueSymbol] = Number(value);
 
@@ -85,6 +91,15 @@ class RollResult {
     } else {
       throw new TypeError(`Result value is invalid: ${value}`);
     }
+  }
+
+  /**
+   * The unique ID of the roll result.
+   *
+   * @returns {*}
+   */
+  get id() {
+    return this[idSymbol];
   }
 
   /**
@@ -197,16 +212,48 @@ class RollResult {
     this[useInTotalSymbol] = !!value;
   }
 
+  /**
+   * The dice that produced this result.
+   *
+   * @returns {StandardDice}
+   */
   get dice() {
     return this[diceSymbol];
   }
 
+  /**
+   * Set the dice that produced this result.
+   *
+   * @param {StandardDice} value
+   */
   set dice(value) {
     if (typeof value !== 'object' || !value) {
       throw new TypeError('Dice value is not of instance StandardDice');
     }
 
     this[diceSymbol] = value;
+  }
+
+  /**
+   * Sets sub rolls from exploding modifiers
+   *
+   * @param {Array<RollResult>} value
+   */
+  set subRolls(value) {
+    if (!Array.isArray(value) || !value.every((item) => item instanceof RollResult)) {
+      throw new TypeError('subRolls must be an array of RollResult instances');
+    }
+
+    this[subRolls] = value;
+  }
+
+  /**
+   * The subRolls that were created by this roll, e.g. from exploding dice.
+   *
+   * @returns {Array<RollResult>}
+   */
+  get subRolls() {
+    return this[subRolls];
   }
 
   /**

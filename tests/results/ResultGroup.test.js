@@ -498,14 +498,17 @@ describe('ResultGroup', () => {
     });
 
     test('accepts `RollResults` objects', () => {
+      const rollResults1 = new RollResults([4]);
+      const rollResults2 = new RollResults([6]);
+
       group.results = [
-        new RollResults([4]),
-        new RollResults([6]),
+        rollResults1,
+        rollResults2,
       ];
 
       expect(group.results).toEqual([
-        new RollResults([4]),
-        new RollResults([6]),
+        rollResults1,
+        rollResults2,
       ]);
     });
 
@@ -522,16 +525,19 @@ describe('ResultGroup', () => {
     });
 
     test('accepts mixed types', () => {
+      const resultGroup = new ResultGroup([5, '+', 2]);
+      const rollResults = new RollResults([4]);
+
       group.results = [
-        new ResultGroup([5, '+', 2]),
-        new RollResults([4]),
+        resultGroup,
+        rollResults,
         4,
         '+',
       ];
 
       expect(group.results).toEqual([
-        new ResultGroup([5, '+', 2]),
-        new RollResults([4]),
+        resultGroup,
+        rollResults,
         4,
         '+',
       ]);
@@ -544,11 +550,12 @@ describe('ResultGroup', () => {
     });
 
     test('can append to rolls', () => {
-      group.addResult(new RollResults([4]));
+      const newRollResults = new RollResults([4]);
+      group.addResult(newRollResults);
 
       expect(group.results).toEqual([
         ...results,
-        new RollResults([4]),
+        newRollResults,
       ]);
     });
   });
