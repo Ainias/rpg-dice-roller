@@ -301,10 +301,11 @@ class RollResult {
    */
   toJSON() {
     const {
-      calculationValue, initialValue, modifierFlags, modifiers, useInTotal, value,
+      calculationValue, initialValue, modifierFlags, modifiers, useInTotal, value, dice,
     } = this;
 
     return {
+      id: this.id,
       calculationValue,
       initialValue,
       modifierFlags,
@@ -312,6 +313,8 @@ class RollResult {
       type: 'result',
       useInTotal,
       value,
+      dice,
+      subRolls: this.subRolls.map((roll) => ({ id: roll.id, initialValue: roll.initialValue })),
     };
   }
 
