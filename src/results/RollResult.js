@@ -305,6 +305,7 @@ class RollResult {
     } = this;
 
     return {
+      id: this.id,
       calculationValue,
       initialValue,
       modifierFlags,
@@ -313,7 +314,7 @@ class RollResult {
       useInTotal,
       value,
       dice,
-      test: true,
+      subRolls: this.subRolls.map((roll) => ({ id: roll.id, initialValue: roll.initialValue })),
     };
   }
 
