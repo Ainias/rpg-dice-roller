@@ -50,6 +50,7 @@ bower_components
 
 ## Compiled TypeScript
 /types
+/dist
 
 ## Testing
 /coverage
