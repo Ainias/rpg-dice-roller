@@ -111,5 +111,11 @@ declare class NumberGenerator {
      * @returns {number} The random floating-point value
      */
     real(min: number, max: number, inclusive?: boolean | undefined): number;
+    /**
+     * Generates a random unique identifier (UUID v4).
+     *
+     * @returns {string}
+     */
+    uuid4(): string;
 }
 export {};

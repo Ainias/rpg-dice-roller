@@ -105,6 +105,12 @@ declare class RollResult {
      */
     get calculationValue(): number;
     /**
+     * The unique ID of the roll result.
+     *
+     * @returns {*}
+     */
+    get id(): any;
+    /**
      * The initial roll value before any modifiers.
      *
      * Not used for calculations and is just for reference.
@@ -123,8 +129,30 @@ declare class RollResult {
      * @returns {string}
      */
     get modifierFlags(): string;
-    set dice(arg: any);
-    get dice(): any;
+    /**
+     * Set the dice that produced this result.
+     *
+     * @param {StandardDice} value
+     */
+    set dice(arg: StandardDice);
+    /**
+     * The dice that produced this result.
+     *
+     * @returns {StandardDice}
+     */
+    get dice(): StandardDice;
+    /**
+     * Sets sub rolls from exploding modifiers
+     *
+     * @param {Array<RollResult>} value
+     */
+    set subRolls(arg: RollResult[]);
+    /**
+     * The subRolls that were created by this roll, e.g. from exploding dice.
+     *
+     * @returns {Array<RollResult>}
+     */
+    get subRolls(): RollResult[];
     /**
      * Return an object for JSON serialising.
      *
@@ -157,6 +185,8 @@ declare class RollResult {
      * @returns {string}
      */
     toString(): string;
+    [idSymbol]: string;
+    [subRolls]: any[];
     [initialValueSymbol]: number;
     [calculationValueSymbol]: number | null | undefined;
     [modifiersSymbol]: Set<string> | undefined;
@@ -164,6 +194,8 @@ declare class RollResult {
     [diceSymbol]: any;
     [valueSymbol]: number | undefined;
 }
+declare const idSymbol: unique symbol;
+declare const subRolls: unique symbol;
 declare const initialValueSymbol: unique symbol;
 declare const calculationValueSymbol: unique symbol;
 declare const modifiersSymbol: unique symbol;
